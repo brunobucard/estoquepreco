@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,10 +33,11 @@ class RabbitMQServiceTest {
         String mensagem = "Teste";
         String nomeFila = "FILA_ESTOQUE";
 
-        Mockito.doNothing().when(rabbitTemplate).convertAndSend(ArgumentMatchers.eq(nomeFila) , ArgumentMatchers.eq(mensagem));
+        doNothing().when(rabbitTemplate).convertAndSend(ArgumentMatchers.eq(nomeFila) , ArgumentMatchers.eq(mensagem));
 
         rabbitMQService.enviaMensagem(nomeFila, mensagem);
 
-        Mockito.verify(rabbitTemplate, Mockito.times(1)).convertAndSend(ArgumentMatchers.eq(nomeFila) , ArgumentMatchers.eq(mensagem));
+        verify(rabbitTemplate, Mockito.times(1)).convertAndSend(ArgumentMatchers.eq(nomeFila) ,
+                ArgumentMatchers.eq(mensagem));
     }
 }
